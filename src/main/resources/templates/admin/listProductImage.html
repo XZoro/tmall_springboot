@@ -32,19 +32,67 @@
                     axios.get(url).then(function (response) {
                         vue.product = response.data;
                         vue.category = vue.product.category;
-                    })
+                    });
                 },
                 listSingles:function (start) {
                     var url = "products/"+pid+"/"+this.uri+"?type=single";
                     axios.get(url).then(function (response) {
                         vue.singleProductImages = response.data;
                         vue.category = vue.product.category;
-                    })
-                }
+                    });
+                },
+                listDetails:function (start) {
+                    var url = "products/"+pid+"/"+this.uri+"?type=detail";
+                    axios.get(url).then(function (response) {
+                        vue.detailProductImages = response.data;
+                    });
+                },
+                addSingle:function () {
+                    if (!checkEmpty(this.singleFile,"单个产品图片")){
+                        return;
+                    }
+                    var url = this.uri+"?type=single&pid="+pid;
+                    var formData = new FormData();
+                    formData.append("image",this.singleFile);
+
+                    axios.post(url,formData).then(function (response) {
+                        vue.listSingles();
+                        $("#singlePic").val('');
+                        vue.singleFile = null;
+                    });
+                },
+                addDetail:function () {
+                    if (!checkEmpty(this.detailFile,"详情产品图片")){
+                        return;
+                    }
+                    var url = this.uri+"?type=detail&pid="+pid;
+                    var formData = new FormData();
+                    formData.append("image",this.detailFile);
+                    axios.post(url,formData).then(function (response) {
+                        vue.listDetails();
+                        $("#singlePic").val('');
+                        vue.detailFile = null;
+                    });
+                },
+                deleteBean:function (id) {
+                    if (!checkDeleteLink()){
+                        return;
+                    }
+                    var url = this.uri+"/"+id;
+                    axios.delete(url).then(function (response) {
+                        vue.listSingles();
+                        vue.listDetails();
+                    });
+                },
+                getSingleFile:function (event) {
+                    this.singleFile = event.target.files[0];
+                },
+                getDetailFile:function (event) {
+                    this.detailFile = event.target.file[0];
+                },
             }
-        })
-    })
-    
+        });
+    });
 </script>
 </body>
 </html>
