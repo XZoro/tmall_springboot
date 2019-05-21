@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="include/admin/adminHeader::html('产品管理')" ></head>
+<body>
+<div th:replace="include/admin/adminNavigator::html" ></div>
+<script>
+    $(function () {
+        var pid = getUrlParms("pid");
+        var data4Vue = {
+            uri:'productImages',
+            singleProductImages:[],
+            detailProductImages:[],
+            product:'',
+            category:'',
+            singleFile:'',
+            detailFile:''
+        };
+
+        //ViewModel
+        var vue = new Vue({
+            el:'#workingArea',
+            data: data4Vue,
+            mounted:function () {
+                this.listSingles();
+                this.listDetails();
+                this.getProduct(pid);
+            },
+            methods:{
+                getProduct: function (pid) {
+                    var url = "products/"+pid;
+                    axios.get(url).then(function (response) {
+                        vue.product = response.data;
+                        vue.category = vue.product.category;
+                    })
+                },
+                listSingles:function (start) {
+                    var url = "products/"+pid+"/"+this.uri+"?type=single";
+                    axios.get(url).then(function (response) {
+                        vue.singleProductImages = response.data;
+                        vue.category = vue.product.category;
+                    })
+                }
+            }
+        })
+    })
+    
+</script>
+</body>
+</html>
