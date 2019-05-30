@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:include="include/admin/adminHeader::html('产品管理')" ></head>
@@ -109,7 +108,7 @@
             <tr v-for="bean in beans ">
                 <td>{{bean.id}}</td>
                 <td>
-
+                    <img v-if="null != bean.firstProductImage" width="40px" :src="'img/productSingle/'+bean.firstProductImage.id+'.jpg'">
                 </td>
                 <td>{{bean.name}}</td>
                 <td>{{bean.subTitle}}</td>
@@ -180,4 +179,3 @@
 <div th:replace="include/admin/adminFooter::html" ></div>
 </body>
 </html>
-

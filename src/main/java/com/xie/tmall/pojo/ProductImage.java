@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "productimage")
-@JsonIgnoreProperties({"handler","hibernateLazyInitializer"})
+@JsonIgnoreProperties({ "handler","hibernateLazyInitializer"})
 public class ProductImage {
 
     @Id
@@ -16,12 +16,11 @@ public class ProductImage {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "pid")
+    @JoinColumn(name="pid")
     @JsonBackReference
     private Product product;
 
     private String type;
-
     public int getId() {
         return id;
     }
@@ -30,19 +29,16 @@ public class ProductImage {
         this.id = id;
     }
 
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
     public String getType() {
         return type;
     }
-
     public void setType(String type) {
         this.type = type;
+    }
+    public Product getProduct() {
+        return product;
+    }
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }
